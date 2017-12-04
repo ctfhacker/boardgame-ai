@@ -284,7 +284,16 @@ class Node:
             exploration versus exploitation.
         """
         UCTK = 1.4
-        s = sorted(self.childNodes, key = lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits))[-1]
+        s = sorted(self.childNodes, key = lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits))
+        for c in s:
+            value = c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits)
+            # print('{}/{} + 1.4 * sqrt(2*log({})/{})'.format(c.wins, c.visits, self.visits, c.visits))
+            # print('{}/{} + 1.4 * sqrt({}/{})'.format(c.wins, c.visits, 2*log(self.visits), c.visits))
+            # print('{}/{} + 1.4 * sqrt({})'.format(c.wins, c.visits, 2*log(self.visits) / c.visits))
+            # print('{}/{} + 1.4 * {}'.format(c.wins, c.visits, sqrt(2*log(self.visits) / c.visits)))
+            # print(value, c)
+        # print('\__ {}'.format(s[-1]))
+        s = s[-1]
         return s
     
     def AddChild(self, m, s):
@@ -331,7 +340,8 @@ def UCT(rootstate, itermax, verbose = False):
 
     rootnode = Node(state = rootstate)
 
-    for i in range(itermax):
+    # for i in range(itermax):
+    for i in range(6):
         node = rootnode
         state = rootstate.Clone()
 
@@ -365,9 +375,9 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number 
         of UCT iterations (= simulations = tree nodes).
     """
-    state = OthelloState(6) # uncomment to play Othello on a square board of the given size
+    # state = OthelloState(6) # uncomment to play Othello on a square board of the given size
     # state = OXOState() # uncomment to play OXO
-    #state = NimState(6) # uncomment to play Nim with the given number of starting chips
+    state = NimState(6) # uncomment to play Nim with the given number of starting chips
     while (state.GetMoves() != []):
         print str(state)
         if state.playerJustMoved == 1:

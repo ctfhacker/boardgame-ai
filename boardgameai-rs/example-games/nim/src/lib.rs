@@ -49,7 +49,7 @@ impl State for NimState {
     fn get_action_strings(&self) -> Vec<String> {
         let mut strings = Vec::new();
         for action in self.get_actions() {
-            strings.push(format!("{:?}", NimAction::from_u32(action)));
+            strings.push(format!("{:?}", NimAction::from_u32(action).unwrap()));
         }
         strings
     }
@@ -62,9 +62,10 @@ impl State for NimState {
     }
 
     fn get_result(&self, player: u32) -> f32 {
-        match self.player_just_moved {
-            player => 1.0,
-            _ => 0.0
+        if self.player_just_moved == player {
+            return 1.0;
+        } else {
+            return 0.0;
         }
     }
 }
