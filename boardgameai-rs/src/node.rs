@@ -121,7 +121,7 @@ pub struct Node {
     /// Vector of the string representation of the actions left to take
     pub untried_action_strings: Vec<String>,
     /// Number of the player who has just played
-    pub player_just_moved: u32,
+    pub player_just_moved: usize,
 }
 
 impl Node {

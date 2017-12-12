@@ -1,10 +1,12 @@
 extern crate boardgameai_rs;
 extern crate nim;
-// extern crate rand;
+extern crate agricola;
 
 use boardgameai_rs::state::State;
 use boardgameai_rs::node::{NodeArena, NodeId};
 use nim::NimState;
+use agricola::AgricolaState;
+use agricola::AgricolaAction;
 use std::fmt::Debug;
 use std::ops::Deref;
 use std::fs::File;
@@ -145,16 +147,34 @@ fn UCT<S: State+Clone+Debug>(arena: &mut NodeArena, mut rootstate: S, iterations
 
 fn main() {
     let arena = &mut NodeArena::new();
-    let mut state = NimState::new(10);
-    println!("{:?}", state);
-    while state.get_actions().len() > 0 {
-        let best_action = UCT(arena, state, 1000);
-        println!("{}", arena.simple_display());
-        println!("Best action {:?}", best_action);
+    // let mut state = NimState::new(10);
+    let mut state = AgricolaState::new(2);
+    println!("{}", state.board);
+
+    /*
+    println!("Before\n{}", state);
+    // Round 1
+    state.do_action(AgricolaAction::StartingPlayer_Food as u32);
+    println!("{:?}", state.get_action_strings());
+    state.do_action(AgricolaAction::Grain as u32);
+    state.do_action(AgricolaAction::Wood as u32);
+    state.do_action(AgricolaAction::Grain as u32);
+    println!("{}", state);
+    // Round 2
+    state.do_action(AgricolaAction::Grain as u32);
+    state.do_action(AgricolaAction::Grain as u32);
+    state.do_action(AgricolaAction::Grain as u32);
+    state.do_action(AgricolaAction::Grain as u32);
+    println!("{}", state);
+    */
+
+    while state.clone().get_actions().len() > 0 {
+        let best_action = UCT(arena, state.clone(), 1000);
+        // println!("{}", arena.simple_display());
+        // println!("Best action {:?}", best_action);
         state.do_action(best_action);
     }
 
-    /*
     loop {
         let actions = state.get_actions();
         if (actions.len() == 0) {
@@ -164,6 +184,6 @@ fn main() {
         state.do_action(actions[0]);
         println!("{:?}", actions);
     }
-    println!("{:?}", state);
-    */
+    // println!("{:?}", state);
+    state.print_ending();
 }

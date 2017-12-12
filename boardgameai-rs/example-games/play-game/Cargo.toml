@@ -5,4 +5,5 @@ authors = ["thebarbershopper <cld251@gmail.com>"]
 
 [dependencies]
 nim = { path = "../nim" }
+agricola = { path = "../agricola" }
 boardgameai-rs = { path = "../../../boardgameai-rs" }

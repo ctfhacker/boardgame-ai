@@ -5,7 +5,7 @@ use boardgameai_rs::action::Action;
 
 #[derive(Debug, Clone, Copy)]
 pub struct NimState {
-    player_just_moved: u32,
+    player_just_moved: usize,
     chips: u32
 }
 
@@ -28,7 +28,7 @@ impl NimAction {
 }
 
 impl State for NimState {
-    fn get_player_just_moved(&self) -> u32 {
+    fn get_player_just_moved(&self) -> usize {
         self.player_just_moved
     }
 
@@ -61,7 +61,7 @@ impl State for NimState {
         self.player_just_moved = 3 - self.player_just_moved
     }
 
-    fn get_result(&self, player: u32) -> f32 {
+    fn get_result(&self, player: usize) -> f32 {
         if self.player_just_moved == player {
             return 1.0;
         } else {
